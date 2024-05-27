@@ -152,6 +152,8 @@ class MenuBarController
 			let isFirst = winPop.last == NSRect.zero
 			if isFirst
 			{
+				wmov?.setContentSize( NSSize( width: 30, height: 30 ) )
+				
 				let rect = Defaults[.popFrame]
 				if rect.size.width != 0 && rect.size.height != 0
 				{
@@ -173,16 +175,12 @@ class MenuBarController
 				//print( "btnCX[\( btnCX )] popCX[\( popCX )]" )
 				if( isFirst || lastCX != btnCX )
 				{
-					let pox = btnCX - ( po.width / 2)
-					let poy = btnFm.origin.y - po.height
-					let npos = NSPoint(x: pox, y: poy - 20 )
+					lastCX = btnCX
+					
+					let npos = NSPoint(x: btnCX - ( po.width / 2), y: ( btnFm.origin.y - po.height ) - 20 )
 					pop.setFrameOrigin(npos)
 					
-					
-					wmov?.setContentSize( NSSize( width: 30, height: 30 ) )
 					wmov?.setFrameOrigin( NSPoint( x: pop.frame.minX + 15, y: pop.frame.maxY - 12 ) )
-					
-					lastCX = btnCX
 				}
 				
 				let auSz = warr?.frame.size ?? NSSize(width: 20, height: 10)
@@ -321,6 +319,8 @@ class winImage: NSWindow
 			])
 		}
 	}
+
+	override var canBecomeKey: Bool { return true }
 }
 
 
@@ -328,6 +328,8 @@ class winImage: NSWindow
 
 class winPop: NSWindow, NSWindowDelegate
 {
+	static let host = "chatgpt.com"
+	
 	var webView: WKWebView!
 	var startLocation: NSPoint = NSPoint()
 	var winMove: winImage?
@@ -380,6 +382,7 @@ class winPop: NSWindow, NSWindowDelegate
 		
 		webView = WKWebView(frame: .zero, configuration: wvc)
 		webView.translatesAutoresizingMaskIntoConstraints = false
+		webView.navigationDelegate = self
 		self.contentView?.subviews.first?.addSubview(webView)
 		
 		NSLayoutConstraint.activate([
@@ -389,7 +392,7 @@ class winPop: NSWindow, NSWindowDelegate
 			webView.trailingAnchor.constraint(equalTo: self.contentView!.trailingAnchor)
 		])
 		
-		webView.load(URLRequest(url: URL(string: "https://chat.openai.com/chat")!))
+		webView.load(URLRequest(url: URL(string: "https://\( winPop.host )")!))
 	}
 	
 	func windowDidBecomeKey(_ notification: Notification)
@@ -405,8 +408,16 @@ class winPop: NSWindow, NSWindowDelegate
 	override func setFrame(_ frame: NSRect, display flag: Bool)
 	{
 		super.setFrame(frame, display: flag)
-		Defaults[.popFrame] = frame
 		updateWinMovePosition()
+		
+		Defaults[.popFrame] = frame
+		
+//		if let btn = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength).button
+//		{
+//			if let btnFm = btn.window?.convertToScreen( btn.frame )
+//			{
+//			}
+//		}
 	}
 	
 	func windowWillResize(_ sender: NSWindow, to news: NSSize) -> NSSize
