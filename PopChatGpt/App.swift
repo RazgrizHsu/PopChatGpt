@@ -16,6 +16,18 @@ extension KeyboardShortcuts.Name
 	}
 }
 
+extension NSWindow
+{
+	public func checkShortcutMatch( _ name: KeyboardShortcuts.Name, _ event: NSEvent) -> Bool
+	{
+		guard let shortcut = KeyboardShortcuts.getShortcut(for: name) else { return false }
+		guard let key = shortcut.key?.rawValue else { return false }
+		
+		let eventModifierFlags = event.modifierFlags.intersection([.shift, .control, .option, .command])
+		return event.keyCode == key && shortcut.modifiers.contains( eventModifierFlags )
+	}
+}
+
 
 
 

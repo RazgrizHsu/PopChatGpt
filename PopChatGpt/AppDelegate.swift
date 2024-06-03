@@ -38,16 +38,6 @@ import KeyboardShortcuts
 			[self] in
 			mbc.togglePopover()
 		}
-		
-		KeyboardShortcuts.onKeyDown(for: .reloadWeb )
-		{
-			[self] in
-			
-			if( NSApplication.shared.isActive )
-			{
-				mbc.wpop?.reloadWebView()
-			}
-		}
 	}
 }
 
@@ -439,6 +429,26 @@ class winPop: NSWindow, NSWindowDelegate
 	{
 		webView.removeFromSuperview()
 		webView = nil
-		initializeWebView()
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) 
+		{
+			objc_setAssociatedObject(self, "webView", nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1)
+		{
+			self.initializeWebView()
+		}
+	}
+	
+	
+	override func keyDown(with event: NSEvent) 
+	{
+		if self.checkShortcutMatch( .reloadWeb, event )
+		{
+			self.reloadWebView()
+			return
+		}
+
+		super.keyDown(with: event)
 	}
 }
