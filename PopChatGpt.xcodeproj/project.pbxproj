@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		750473A82C0F174700317CA9 /* VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750473A72C0F174600317CA9 /* VC.swift */; };
 		753BCB252BB8BE15006CBC64 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753BCB232BB8BE01006CBC64 /* SettingView.swift */; };
 		753BCB282BB8BEA1006CBC64 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 753BCB272BB8BEA1006CBC64 /* Settings */; };
 		753BCB2A2BB8BEA1006CBC64 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 753BCB292BB8BEA1006CBC64 /* KeyboardShortcuts */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		750473A72C0F174600317CA9 /* VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VC.swift; sourceTree = "<group>"; };
 		753BCB142BB8BD6F006CBC64 /* PopChatGpt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopChatGpt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		753BCB232BB8BE01006CBC64 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		753BCB2E2BB8C067006CBC64 /* fw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fw.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				C53410792B8F3B0E007C55EA /* @Defaults.swift */,
 				75C4EC152BFED6660045394B /* Base.swift */,
 				75DE712C2C048D390095F0D0 /* winPop.swift */,
+				750473A72C0F174600317CA9 /* VC.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				75C4EC162BFED6660045394B /* Base.swift in Sources */,
 				753BCB3A2BB8C1A4006CBC64 /* @Settings.swift in Sources */,
 				753BCB3B2BB8C1A4006CBC64 /* @Defaults.swift in Sources */,
+				750473A82C0F174700317CA9 /* VC.swift in Sources */,
 				753BCB322BB8C196006CBC64 /* AppDelegate.swift in Sources */,
 				75F6A3102BBECA74001313FC /* Test.FormView.swift in Sources */,
 				75DE712D2C048D390095F0D0 /* winPop.swift in Sources */,
@@ -301,7 +305,7 @@
 				CODE_SIGN_ENTITLEMENTS = popchatgpt/popchatgpt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = KT5ZZ9Q8DJ;
@@ -335,7 +339,7 @@
 				CODE_SIGN_ENTITLEMENTS = popchatgpt/popchatgpt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = KT5ZZ9Q8DJ;

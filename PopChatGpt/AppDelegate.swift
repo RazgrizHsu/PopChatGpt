@@ -74,6 +74,7 @@ class MenuBarController
 		menu.addItem( fw.ui.makeMenuItemBy( "Toggle", #selector(self.togglePopover), self ) )
 		menu.addItem( fw.ui.makeMenuItemBy( "Settings", #selector(clicked_Settings), self ) )
 		menu.addItem( fw.ui.makeMenuItemBy( "Reload", #selector(clicked_Reload), self ) )
+		menu.addItem( fw.ui.makeMenuItemBy( "Clear Data", #selector(clicked_Clear), self ))
 		menu.addItem( NSMenuItem.separator() )
 		menu.addItem( fw.ui.makeMenuItemBy( "Quit", #selector(quitApp), "q", self ) )
 	}
@@ -111,6 +112,21 @@ class MenuBarController
 		wpop?.reloadWebView()
 	}
 	
+	@MainActor @objc func clicked_Clear()
+	{
+		let dataStore = WKWebsiteDataStore.default()
+		let dataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
+		let sinceDate = Date(timeIntervalSince1970: 0)
+		dataStore.removeData(ofTypes: dataTypes, modifiedSince: sinceDate)
+		{
+			VC.showAlert( "clear", "all data has been cleared." )
+			{
+				print("All website data has been removed.")
+				self.wpop?.reloadWebView()
+			}
+		}
+	}
+	
 	@objc func quitApp()
 	{
 		NSApplication.shared.terminate(self)
@@ -120,10 +136,18 @@ class MenuBarController
 	{
 		if let pop = wpop, pop.isVisible
 		{
-			winPop.last = pop.frame
-			pop.orderOut(nil)
-			warr?.orderOut(nil)
-			wmov?.orderOut(nil)
+			if pop.isKeyWindow
+			{
+				winPop.last = pop.frame
+				pop.orderOut(nil)
+				warr?.orderOut(nil)
+				wmov?.orderOut(nil)
+			}
+			else
+			{
+				NSApp.activate(ignoringOtherApps: true)
+				pop.makeKeyAndOrderFront(nil)
+			}
 		}
 		else
 		{
@@ -427,8 +451,12 @@ class winPop: NSWindow, NSWindowDelegate
 
 	func reloadWebView()
 	{
-		webView.removeFromSuperview()
-		webView = nil
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1)
+		{
+			self.webView.removeFromSuperview()
+			self.webView = nil
+		}
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) 
 		{
